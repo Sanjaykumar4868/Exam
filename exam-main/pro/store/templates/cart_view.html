@@ -1,0 +1,75 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+
+
+
+
+
+
+
+  <div class="cart_section">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="cart_container">
+                  {% if cart|length %}
+                    <div class="cart_title">Shopping Cart<small> ({{ cart|length }} item in your cart) </small></div>
+                   
+                    {% for item in cart %}
+                    <div class="cart_items">
+                        <ul class="cart_list">
+                            <li class="cart_item clearfix">
+                                <div class="cart_item_image"><img src="{{ item.product.image.url }}" alt=""></div>
+                                <div class="cart_item_info d-flex flex-md-row flex-column justify-content-between">
+                                    <div class="cart_item_name cart_info_col">
+                                        <div class="cart_item_title">Name</div>
+                                        <div class="cart_item_text">{{item.product.title}}</div>
+                                    </div>
+                                 
+                                    <div class="cart_item_quantity cart_info_col">
+                                      <div class="cart_item_title">Quantity</div>
+                                      <div class="cart_item_text">
+                                      <a href="{% url 'change_quantity' item.product.id %}?action=increase" class="pr-2"> +</a>
+                                      {{ item.quantity }} 
+                                       <a href="{% url 'change_quantity' item.product.id %}?action=decrease" class="pl-2"> -</a>
+                                      </div>
+                                    </div>
+                                    <div class="cart_item_price cart_info_col">
+                                        <div class="cart_item_title">Price</div>
+                                        <div class="cart_item_text">₹{{item.product.get_display_price}}</div>
+                                    </div>
+                                 
+                                    <div class="cart_item_total cart_info_col">
+                                        <div class="cart_item_title">Remove item</div>
+                                        <div class="cart_item_text text-center">
+                                        <a href="{% url 'remove_from_cart' item.product.id %}" ><i class="fa fa-times" aria-hidden="true"></i></a> 
+                                      </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    {% endfor %}  
+                    <div class="order_total">
+                        <div class="order_total_content text-md-right">
+                            <div class="order_total_title">Grand Total:</div>
+                            <div class="order_total_amount">₹{{ cart.get_total_cost }}</div>
+                        </div>
+                    </div>
+                    <div class="cart_buttons"> <a href="{% url 'productpage' %}" class="button cart_button_clear">Continue Shopping</a> <button type="button" class="button cart_button_checkout" onclick="alert('#include<getlost.iostream>')">Checkout </button> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="text-center pt-5"><h2>You don't have any product in cart!</h2></div>
+
+{% endif %}
+
+{% endblock %}
